@@ -16,66 +16,62 @@ public class Pergunta {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	  private int id;
 	  private String descricao; 
-	  private String[] alternativas; 
-	  private int correta;
-	  private int valor; 
-
-	  public Pergunta() {
-		  
-	  }
-	  
-	  public Pergunta(String descricao, String[] alternativas, int correta, int valor) {
-	    this.descricao = descricao;
-	    this.alternativas = alternativas;
-	    this.correta = correta;
-	    this.valor = valor;
-	  }
-
-	  
-	  public int getId() {
+	  private String a;
+	  private String b;
+	  private String c;
+	  private String d;
+	  private String correta;
+	  private int valor;
+	public int getId() {
 		return id;
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public String getDescricao() {
-	    return descricao;
-	  }
+		return descricao;
+	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+	public String getA() {
+		return a;
+	}
+	public void setA(String a) {
+		this.a = a;
+	}
+	public String getB() {
+		return b;
+	}
+	public void setB(String b) {
+		this.b = b;
+	}
+	public String getC() {
+		return c;
+	}
+	public void setC(String c) {
+		this.c = c;
+	}
+	public String getD() {
+		return d;
+	}
+	public void setD(String d) {
+		this.d = d;
+	}
+	public String getCorreta() {
+		return correta;
+	}
+	public void setCorreta(String correta) {
+		this.correta = correta;
+	}
+	public int getValor() {
+		return valor;
+	}
+	public void setValor(int valor) {
+		this.valor = valor;
+	} 
 
-	  public String[] getAlternativas() {
-	    return alternativas;
-	  }
-
-	  public int getCorreta() {
-	    return correta;
-	  }
-
-	  public int getValor() {
-	    return valor;
-	  }
-
-	  public void setDescricao(String descricao) {
-	    this.descricao = descricao;
-	  }
-
-	  public void setAlternativas(String[] alternativas) {
-	    this.alternativas = alternativas;
-	  }
-
-	  public void setCorreta(int correta) {
-	    this.correta = correta;
-	  }
-
-	  public void setValor(int valor) {
-	    this.valor = valor;
-	  }
-	  public void imprimirAlternativas() {
-		    for (int i = 0; i < alternativas.length; i++) {
-		        System.out.println((i + 1) + ". " + alternativas[i]);
-		    }
-		}
+	  
 
 	}
 

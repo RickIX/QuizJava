@@ -1,28 +1,19 @@
 package entidades;
 
 public class Ranking {
-    private User jogador;
+    private String nome;
     private int pontuacao;
-
-    public Ranking(User jogador, int pontuacao) {
-        this.jogador = jogador;
+    
+    public Ranking(String nome, int pontuacao) {
+        this.nome = nome;
         this.pontuacao = pontuacao;
     }
-
-    public User getJogador() {
-        return jogador;
+    
+    public String getNome() {
+        return nome;
     }
-
-    public void setJogador(User jogador) {
-        this.jogador = jogador;
-    }
-
+    
     public int getPontuacao() {
         return pontuacao;
     }
-
-    public void setPontuacao(int pontuacao) {
-        this.pontuacao = pontuacao;
-    }
 }
-

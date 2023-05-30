@@ -73,6 +73,35 @@ public class UserPersistencia {
 
 	    return null;
 	}
+	
+	public static User login(String nome, String senha) {
+	    EntityManager manager = EntityManagerFactory.getInstance();
+
+	    try {
+	        Query query = manager.createQuery("SELECT u FROM User u WHERE u.nome = :nome and u.senha = :senha");
+	        query.setParameter("nome", nome);
+	        query.setParameter("senha", senha);
+	        List<User> usuarios = query.getResultList();
+	        if (!usuarios.isEmpty()) {
+	            return usuarios.get(0);
+	        }
+	    } catch (Exception e) {
+	    }
+
+	    return null;
+	}
+	public static List<User> listarUsuariosPorPontuacao() {
+	    EntityManager em = PersistenceManager.getEntityManager();
+	    try {
+	        CriteriaBuilder cb = em.getCriteriaBuilder();
+	        CriteriaQuery<User> query = cb.createQuery(User.class);
+	        Root<User> root = query.from(User.class);
+	        query.orderBy(cb.desc(root.get("pontos")));
+	        return em.createQuery(query).getResultList();
+	    } finally {
+	        em.close();
+	    }
+	}
 
 
 }

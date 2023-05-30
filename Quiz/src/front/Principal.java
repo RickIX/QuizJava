@@ -1,7 +1,10 @@
 package front;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import entidades.Pergunta;
+import entidades.Ranking;
 import entidades.User;
 import persistencia.PerguntasPersistencia;
 import persistencia.UserPersistencia;
@@ -15,6 +18,7 @@ public class Principal {
             System.out.println("1 - Jogadores");
             System.out.println("2 - Perguntas");
             System.out.println("3 - Jogar");
+            System.out.println("4 - Ranking de Jogadores");
             System.out.println("4 - Sair");
             opc = Console.readInt("Opção: ");
 
@@ -26,7 +30,7 @@ public class Principal {
                         System.out.println("2 - Listar jogadores");
                         System.out.println("3 - Atualizar jogador");
                         System.out.println("4 - Deletar Jogador");
-                        System.out.println("5 - Sair");
+                        System.out.println("5 - Voltar");
 
                         opc = Console.readInt("Opção: ");
                         switch (opc) {
@@ -49,8 +53,9 @@ public class Principal {
                                 break;
 
                             case 3:
+                            	User jogadorAtualizar = new User();
                                 int id = Console.readInt("ID do jogador a ser atualizado: ");
-                                User jogadorAtualizar = UserPersistencia.getUsuarioPorId(id);
+                                jogadorAtualizar = UserPersistencia.getUsuarioPorId(id);
                                 if (jogadorAtualizar != null) {
                                     jogadorAtualizar.setNome(Console.readString("Novo nome: "));
                                     jogadorAtualizar.setSenha(Console.readString("Nova senha: "));
@@ -100,7 +105,7 @@ public class Principal {
                         System.out.println("2 - Listar pergunta");
                         System.out.println("3 - Atualizar pergunta");
                         System.out.println("4 - Deletar pergunta");
-                        System.out.println("5 - Sair");
+                        System.out.println("5 - Voltar");
 
                         opc = Console.readInt("Opção: ");
                         switch (opc) {
@@ -108,21 +113,12 @@ public class Principal {
                             Pergunta objPergunta = new Pergunta();
                             objPergunta.setDescricao(Console.readString("Qual a pergunta: "));
                             
-                            String[] alternativas = new String[4];
-                            for (int i = 0; i < alternativas.length; i++) {
-                                alternativas[i] = Console.readString("Alternativa " + (i + 1) + ": ");
-                            }
-                            objPergunta.setAlternativas(alternativas);
-                            
-                            
-                            System.out.println("Escolha a alternativa correta:");
-                            objPergunta.imprimirAlternativas();
-                            
-                          
-                            int correta = Console.readInt("Opção: ");
-                            objPergunta.setCorreta(correta - 1); 
-                            
-                            
+                           objPergunta.setA(Console.readString("Alternativa A :"));
+                           objPergunta.setB(Console.readString("Alternativa B :"));
+                           objPergunta.setC(Console.readString("Alternativa C :"));
+                           objPergunta.setD(Console.readString("Alternativa D :"));
+                           objPergunta.setCorreta(Console.readString("Qual a alternativa correta: "));
+                           
                             int valor = Console.readInt("Valor da pergunta: ");
                             objPergunta.setValor(valor);
                             
@@ -130,19 +126,41 @@ public class Principal {
                             break;
 
                             case 2:
-                                PerguntasPersistencia.listarPerguntas();
+                            	List<Pergunta> perguntas = PerguntasPersistencia.listarPerguntas();
+                                for (Pergunta pergunta : perguntas) {
+                                    System.out.println("ID: " + pergunta.getId());
+                                    System.out.println("Descrição: " + pergunta.getDescricao());
+                                    System.out.println("Alternativa A: " + pergunta.getA());
+                                    System.out.println("Alternativa B: " + pergunta.getB());
+                                    System.out.println("Alternativa C: " + pergunta.getC());
+                                    System.out.println("Alternativa D: " + pergunta.getD());
+                                    System.out.println("Correta: " + pergunta.getCorreta());
+                                    System.out.println("Valor da pergunta: " + pergunta.getValor());
+                                    System.out.println("-------------------------");
+                                }
                                 break;
                             case 3:
-                            	int id = Console.readInt("ID da pergunta a ser atualizad: ");
-                                Pergunta pergunta = PerguntasPersistencia.getPerguntaPorId(id);
+                            	Pergunta pergunta = new Pergunta();
+                            	int id = Console.readInt("ID da pergunta a ser atualizada: ");
+                                pergunta = PerguntasPersistencia.getPerguntaPorId(id);
                                 if (pergunta != null) {
                                 	pergunta.setDescricao(Console.readString("Nova Descrição: "));
-                                	pergunta.setValor(Console.readInt("Novo valor: "));
+                                	pergunta.setA(Console.readString("Novo valor para A: "));
+                                	pergunta.setB(Console.readString("Novo valor para B: "));
+                                	pergunta.setC(Console.readString("Novo valor para C: "));
+                                	pergunta.setD(Console.readString("Novo valor para D: "));
+                                	pergunta.setCorreta(Console.readString("Qual a nova alternativa correta: "));
+                                	pergunta.setValor(Console.readInt("Quanto a questão vale: "));
+                                	boolean atualizado = PerguntasPersistencia.alterar(pergunta);
+
+                                }else {
+                                	System.out.println("não foi possivel atualizar a pergunta");
                                 }
+                                
                                 break;
                             case 4:
                             	Pergunta objPergunta2 = new Pergunta();
-                            	int idd = Console.readInt("ID da pergunta a ser atualizad: ");
+                            	int idd = Console.readInt("ID da pergunta que quer deletar: ");
                                 objPergunta2 = PerguntasPersistencia.getPerguntaPorId(idd);
                                 if (objPergunta2 != null) {
                                 	PerguntasPersistencia.excluir(objPergunta2);
@@ -155,11 +173,78 @@ public class Principal {
                     break;
 
                 case 3:
-                	//jogar
+                    // Obtém a lista de perguntas
+                    List<Pergunta> perguntas = PerguntasPersistencia.listarPerguntas();
+                    
+                    // Verifica se há perguntas cadastradas
+                    if (perguntas.isEmpty()) {
+                        System.out.println("Não há perguntas cadastradas.");
+                        break;
+                    }
+                    
+                    // Obtém o jogador
+                    System.out.println("----------LOGIN----------");
+                    String nome = Console.readString("nome: ");
+                    String senha = Console.readString("senha: ");
+                    User jogador = UserPersistencia.login(nome, senha);
+                    
+                    // Verifica se o jogador existe
+                    if (jogador == null) {
+                        System.out.println("Jogador não encontrado.");
+                        break;
+                    }
+                    
+                    int pontuacao = 0;
+                    
+                    // Itera sobre as perguntas
+                    for (Pergunta pergunta : perguntas) {
+                        System.out.println("Pergunta:");
+                        System.out.println(pergunta.getDescricao());
+                        System.out.println("Alternativa A: " + pergunta.getA());
+                        System.out.println("Alternativa B: " + pergunta.getB());
+                        System.out.println("Alternativa C: " + pergunta.getC());
+                        System.out.println("Alternativa D: " + pergunta.getD());
+                        
+                        // Obtém a resposta do usuário
+                        String resposta = Console.readString("Resposta: ");
+                        
+                        // Verifica se a resposta está correta
+                        if (resposta.equals(pergunta.getCorreta())) {
+                            pontuacao += pergunta.getValor();
+                            System.out.println("Resposta correta! Pontuação atual: " + pontuacao);
+                        } else {
+                            System.out.println("Resposta incorreta!");
+                        }
+                    }
+                    
+                    // Atualiza a pontuação do jogador
+                    jogador.setPontos(jogador.getPontos() + pontuacao);
+                    boolean atualizado = UserPersistencia.alterar(jogador);
                     break;
                 case 4:
+                    List<User> usuariosRanking = UserPersistencia.listarUsuariosPorPontuacao();
+                    List<Ranking> ranking = new ArrayList<>();
+                    
+                    // Cria objetos Ranking a partir dos usuários
+                    for (User usuario : usuariosRanking) {
+                        ranking.add(new Ranking(usuario.getNome(), usuario.getPontos()));
+                    }
+                    
+                    // Ordena o ranking pelo nome e pontuação
+                    ranking.sort(Comparator.comparing(Ranking::getNome).thenComparing(Ranking::getPontuacao).reversed());
+                    
+                    // Exibe o ranking
+                    System.out.println("--------RANKING--------");
+                    for (Ranking rank : ranking) {
+                        System.out.println("Nome: " + rank.getNome());
+                        System.out.println("Pontuação: " + rank.getPontuacao());
+                        System.out.println("-----------------------");
+                    }
                     break;
+
+                case 5:
+                	break;
             }
-        } while (opc != 4);
+        } while (opc != 5);
     }
 }
