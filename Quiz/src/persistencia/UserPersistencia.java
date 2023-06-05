@@ -90,7 +90,7 @@ public class UserPersistencia {
 
 	    return null;
 	}
-	public static List<User> listarUsuariosPorPontuacao() {
+	/*public static List<User> listarUsuariosPorPontuacao() {
 	    EntityManager em = PersistenceManager.getEntityManager();
 	    try {
 	        CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -101,7 +101,7 @@ public class UserPersistencia {
 	    } finally {
 	        em.close();
 	    }
-	}
+	}*/
 
 
 }

@@ -19,11 +19,12 @@ public class Principal {
             System.out.println("2 - Perguntas");
             System.out.println("3 - Jogar");
             System.out.println("4 - Ranking de Jogadores");
-            System.out.println("4 - Sair");
+            System.out.println("5 - Sair");
             opc = Console.readInt("Opção: ");
 
             switch (opc) {
                 case 1:
+                	int opc1;
                     do {
                         System.out.println("--------JOGADORES--------");
                         System.out.println("1 - Cadastrar jogador");
@@ -32,8 +33,8 @@ public class Principal {
                         System.out.println("4 - Deletar Jogador");
                         System.out.println("5 - Voltar");
 
-                        opc = Console.readInt("Opção: ");
-                        switch (opc) {
+                        opc1 = Console.readInt("Opção: ");
+                        switch (opc1) {
                             case 1:
                                 User objJogador = new User();
                                 objJogador.setNome(Console.readString("Nome: "));
@@ -95,10 +96,11 @@ public class Principal {
                             case 5:
                                 break;
                         }
-                    } while (opc != 5);
+                    } while (opc1 != 5);
                     break;
 
                 case 2:
+                	int opc2;
                     do {
                         System.out.println("--------PERGUNTAS--------");
                         System.out.println("1 - Cadastrar pergunta");
@@ -107,8 +109,8 @@ public class Principal {
                         System.out.println("4 - Deletar pergunta");
                         System.out.println("5 - Voltar");
 
-                        opc = Console.readInt("Opção: ");
-                        switch (opc) {
+                        opc2 = Console.readInt("Opção: ");
+                        switch (opc2) {
                         case 1:
                             Pergunta objPergunta = new Pergunta();
                             objPergunta.setDescricao(Console.readString("Qual a pergunta: "));
@@ -169,7 +171,7 @@ public class Principal {
                             case 5:
                                 break;
                         }
-                    } while (opc != 5);
+                    } while (opc2 != 5);
                     break;
 
                 case 3:
@@ -222,24 +224,24 @@ public class Principal {
                     boolean atualizado = UserPersistencia.alterar(jogador);
                     break;
                 case 4:
-                    List<User> usuariosRanking = UserPersistencia.listarUsuariosPorPontuacao();
-                    List<Ranking> ranking = new ArrayList<>();
-                    
-                    // Cria objetos Ranking a partir dos usuários
-                    for (User usuario : usuariosRanking) {
-                        ranking.add(new Ranking(usuario.getNome(), usuario.getPontos()));
-                    }
-                    
-                    // Ordena o ranking pelo nome e pontuação
-                    ranking.sort(Comparator.comparing(Ranking::getNome).thenComparing(Ranking::getPontuacao).reversed());
-                    
-                    // Exibe o ranking
-                    System.out.println("--------RANKING--------");
-                    for (Ranking rank : ranking) {
-                        System.out.println("Nome: " + rank.getNome());
-                        System.out.println("Pontuação: " + rank.getPontuacao());
-                        System.out.println("-----------------------");
-                    }
+//                    List<User> usuariosRanking = UserPersistencia.listarUsuariosPorPontuacao();
+//                    List<Ranking> ranking = new ArrayList<>();
+//                    
+//                    // Cria objetos Ranking a partir dos usuários
+//                    for (User usuario : usuariosRanking) {
+//                        ranking.add(new Ranking(usuario.getNome(), usuario.getPontos()));
+//                    }
+//                    
+//                    // Ordena o ranking pelo nome e pontuação
+//                    ranking.sort(Comparator.comparing(Ranking::getNome).thenComparing(Ranking::getPontuacao).reversed());
+//                    
+//                    // Exibe o ranking
+//                    System.out.println("--------RANKING--------");
+//                    for (Ranking rank : ranking) {
+//                        System.out.println("Nome: " + rank.getNome());
+//                        System.out.println("Pontuação: " + rank.getPontuacao());
+//                        System.out.println("-----------------------");
+//                    }
                     break;
 
                 case 5:
